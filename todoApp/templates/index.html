@@ -7,14 +7,35 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/create" method="post">
+    <form>
         <input type="text" name="description" id="description" placeholder="planned activity"/>
         <input type="submit" value="Create" />
     </form>
     <ul>
-        {% for item in data %}
-        <li>{{item.description}}</li>
+        {% for todo in data %}
+       <li> {{ todo.description }} </li> 
         {% endfor %}
     </ul>
+    <script>
+        document.querySelector('form').addEventListener('submit',async (e)=>{
+            e.preventDefault();
+            const inputValue = document.querySelector('#description').value
+
+            const response = await fetch('/create',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({description: inputValue})
+            })
+        
+          const data = await response.json()
+          const li = document.createElement('li')
+          li.textContent= data.description
+          document.querySelector('ul').insertAdjacentElement("beforeend",li)
+        })
+
+
+    </script>
 </body>
 </html>
