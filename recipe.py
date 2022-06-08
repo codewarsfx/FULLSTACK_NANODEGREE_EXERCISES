@@ -43,6 +43,11 @@ def update_recipe(recipe_id):
     print(recipes)
     return jsonify(recipe)
 
+@app.route('/recipes/<int:recipe_id>', methods = ['DELETE'])
+def delete_recipe(recipe_id):
+     recipe = next((recipe for recipe in recipes if recipe["id"] == recipe_id),None)
+     if not recipe: 
+        return jsonify({"message": "recipe not found"}), HTTPStatus.NOT_FOUND
 
 if __name__ == '__main__':
     app.run(debug=True)
