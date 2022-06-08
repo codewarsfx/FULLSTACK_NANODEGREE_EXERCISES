@@ -1,10 +1,5 @@
 
-recipes_list = [{
-    "id":1,
-    "name":"okra soup",
-    "isPublished":True,
-    "description":"okra is a beautifulsoup",
-}]
+recipes_list = []
 
 def get_id():
     if recipes_list:
