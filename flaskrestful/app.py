@@ -34,7 +34,7 @@ class RecipeItem(Resource):
         return recipe.data()
 
 
-# @app.errorhandler(404)
+# @app.errorhandler(404) 
 # def not_found(error):
 #     return {
 #         "message": "not found",
