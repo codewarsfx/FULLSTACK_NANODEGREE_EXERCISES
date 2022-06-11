@@ -9,6 +9,7 @@ def create_app():
     app = Flask(__name__)
     register_db(app)
     register_api(app)
+    return app
 
 
 def register_db(app):
@@ -19,5 +20,10 @@ def register_db(app):
 def register_api(app):
     api = Api(app)
     api.add_resource(UserList,'/api/users')
+
+
+if __name__ == '__main__':
+    app= create_app()
+    app.run()
 
 

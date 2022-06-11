@@ -4,11 +4,12 @@ from extensions import db
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name= db.Column(db.String(50),unique=True,nullable=True)
+    name= db.Column(db.String(50),unique=True,nullable=False)
     email= db.Column(db.String(50),nullable=False)
-    password= db.Column(db.String(50),nullable=False)
     created_at= db.Column(db.DateTime(),server_default=db.func.now())
-    recipes = db.relationship('Recipe',backref='user')
+    status = db.Column(db.Boolean)
+    password = db.Column(db.String)
+    recipes = db.relationship('Recipe',backref='user',lazy=True)
 
 
     def __repr__(self):
@@ -19,7 +20,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "created_at": self.created_at
+            "created_at": self.created_at.strftime("%m/%d/%Y, %H:%M:%S")
         }
     def add(self):
         db.session.add(self)
