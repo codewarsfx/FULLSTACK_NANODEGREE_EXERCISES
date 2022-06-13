@@ -3,6 +3,7 @@ from config import Config
 from flask_migrate import Migrate
 from extensions import db,jwt
 from flask_restful import Api
+from resources.me import Me
 from resources.protectedResource import Protected
 from resources.userLogin import UserLogin
 from resources.user import UserList
@@ -23,8 +24,11 @@ def register_db(app):
 def register_api(app):
     api = Api(app)
     api.add_resource(UserList,'/api/users')
+    api.add_resource(Me, '/api/users/me')
     api.add_resource(UserLogin,'/api/users/login')
+
     api.add_resource(Protected, '/api/users/token/<string:name>')
+ 
 
 
 if __name__ == '__main__':

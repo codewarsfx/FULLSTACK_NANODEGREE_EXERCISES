@@ -28,6 +28,7 @@ class User(db.Model):
     
     def update(self):
         db.session.commit()
+
     
     def delete(self):
         db.session.delete(self)
@@ -42,3 +43,7 @@ class User(db.Model):
     def find_by_email(cls,email):
         user = cls.query.filter(cls.email == email).first()
         return user
+
+    @classmethod
+    def find_by_id(cls,id):
+        return cls.query.filter(cls.id == id).first()
