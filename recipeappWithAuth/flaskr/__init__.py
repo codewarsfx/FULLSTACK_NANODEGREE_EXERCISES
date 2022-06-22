@@ -26,7 +26,6 @@ def register_api(app):
     api.add_resource(UserList,'/api/users')
     api.add_resource(Me, '/api/users/me')
     api.add_resource(UserLogin,'/api/users/login')
-
     api.add_resource(Protected, '/api/users/token/<string:name>')
  
 

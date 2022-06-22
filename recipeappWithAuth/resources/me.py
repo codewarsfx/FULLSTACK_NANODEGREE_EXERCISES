@@ -6,7 +6,7 @@ from models.userModel import User
 
 
 class Me(Resource):
-    @jwt_required
+    @jwt_required(optional=True)
     def get(self):
         userId = get_jwt_identity()
         user = User.find_by_id(userId)
@@ -14,5 +14,5 @@ class Me(Resource):
         if not user:
             return {"message": "user not found"}, 404
 
-        return 'user.format(), HTTPStatus.OK'
+        return user.format(), HTTPStatus.OK
         

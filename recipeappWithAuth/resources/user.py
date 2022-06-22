@@ -7,27 +7,33 @@ from models.recipes import Recipe
 from models.userModel import User
 from utils import hash_password
 
+from schema.userschema import Userschema
+
+
+user_schema = Userschema()
+user_schema_noemail = Userschema(exclude=('email'))
+
 
 class UserList(Resource):
     def post(self):
-        data = request.get_json()
+        json_data = request.get_json()
         # check that user doesn't already exist'
-        name = data.get('name')
-        email = data.get('email')
-        password = data.get('password') 
+        data,error = user_schema.load(data=json_data)
 
-        if User.find_by_name(name):
+        if error:
+            return {"message":"validation error","Error":error},HTTPStatus.BAD_REQUEST
+
+        if User.find_by_name(data.get('name')):
             return {"message":'user with that name already exists'}, HTTPStatus.BAD_REQUEST
         
-        elif User.find_by_email(email):
+        elif User.find_by_email(data.get('email')):
             return {"message":'user with that email already exists'},HTTPStatus.BAD_REQUEST
         
-        hash = hash_password(password)
 
-        newUser = User(name=data.get('name'), email=data.get('email'), password=hash)
+        newUser = User(**data)
         newUser.add()
 
-        return newUser.format(), HTTPStatus.CREATED
+        return user_schema.dump(newUser).data, HTTPStatus.CREATED
 
         
 
