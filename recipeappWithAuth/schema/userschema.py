@@ -1,17 +1,18 @@
 from ast import dump
-from typing_extensions import Required
 from marshmallow import Schema, fields
 
 from utils import hash_password 
 
 class Userschema(Schema):
-    id = fields.Integer(required= True)
+    class Meta:
+         ordered = True
+    id = fields.Integer(dump_only=True)
     name = fields.String(required= True)
-    email = fields.Email(required= True,dump_only=True)
+    email = fields.Email(required= True)
     created_at = fields.DateTime(required= True,dump_only=True)
-    password = fields.Password(required= True,deserialize="compare_password")
+    password = fields.Method(required= True,deserialize="hash_password")
 
-    def compare_password(self, password):
-        return hash_password(password)
+    def hash_password(self, password):
+        return hash_password(password)               
 
 

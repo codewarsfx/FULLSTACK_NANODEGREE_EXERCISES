@@ -11,17 +11,19 @@ from schema.userschema import Userschema
 
 
 user_schema = Userschema()
-user_schema_noemail = Userschema(exclude=('email'))
+user_schema_noemail = Userschema(exclude=('email',))
 
 
 class UserList(Resource):
     def post(self):
         json_data = request.get_json()
         # check that user doesn't already exist'
-        data,error = user_schema.load(data=json_data)
+        data,errors = user_schema.load(data=json_data)
 
-        if error:
-            return {"message":"validation error","Error":error},HTTPStatus.BAD_REQUEST
+        print(data)
+
+        # if errors:
+        #     return {"message":"validation error","Error":errors},HTTPStatus.BAD_REQUEST
 
         if User.find_by_name(data.get('name')):
             return {"message":'user with that name already exists'}, HTTPStatus.BAD_REQUEST
@@ -33,7 +35,7 @@ class UserList(Resource):
         newUser = User(**data)
         newUser.add()
 
-        return user_schema.dump(newUser).data, HTTPStatus.CREATED
+        return user_schema.dump(newUser), HTTPStatus.CREATED
 
         
 
