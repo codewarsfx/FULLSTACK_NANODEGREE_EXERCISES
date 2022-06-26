@@ -1,3 +1,4 @@
+from dataclasses import field
 from marshmallow import Schema, fields, post_dump, validate, validates,ValidationError
 from userschema import UserSchema
 
@@ -13,6 +14,7 @@ class RecipeSchema(Schema):
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True, validate=[validate.
     Length(max=100)])
+    time=fields.DateTime(required=True, validate=[validate])
     description = fields.String(validate=[validate.Length(max=200)])
     num_of_servings = fields.Integer(validate=validate_num_of_servings)
     cook_time = fields.Integer()
